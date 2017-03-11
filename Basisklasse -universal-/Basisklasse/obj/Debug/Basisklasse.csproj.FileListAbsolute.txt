@@ -1,0 +1,18 @@
+M:\Kundenverwaltung\Basisklasse\Basisklasse\bin\Debug\Basisklasse.dll
+M:\Kundenverwaltung\Basisklasse\Basisklasse\bin\Debug\Basisklasse.pdb
+M:\Kundenverwaltung\Basisklasse\Basisklasse\obj\Debug\Basisklasse.dll
+M:\Kundenverwaltung\Basisklasse\Basisklasse\obj\Debug\Basisklasse.pdb
+C:\Users\Michael\Downloads\KDV\Basisklasse\Basisklasse\bin\Debug\Basisklasse.dll
+C:\Users\Michael\Downloads\KDV\Basisklasse\Basisklasse\bin\Debug\Basisklasse.pdb
+C:\Users\Michael\Downloads\KDV\Basisklasse\Basisklasse\obj\Debug\Basisklasse.dll
+C:\Users\Michael\Downloads\KDV\Basisklasse\Basisklasse\obj\Debug\Basisklasse.pdb
+C:\Users\Michael\Documents\Visual Studio 2015\Projects\Kundenverwaltung -DONE-\Basisklasse\Basisklasse\bin\Debug\Basisklasse.dll
+C:\Users\Michael\Documents\Visual Studio 2015\Projects\Kundenverwaltung -DONE-\Basisklasse\Basisklasse\bin\Debug\Basisklasse.pdb
+C:\Users\Michael\Documents\Visual Studio 2015\Projects\Kundenverwaltung -DONE-\Basisklasse\Basisklasse\obj\Debug\Basisklasse.dll
+C:\Users\Michael\Documents\Visual Studio 2015\Projects\Kundenverwaltung -DONE-\Basisklasse\Basisklasse\obj\Debug\Basisklasse.pdb
+C:\Users\Michael\Documents\Visual Studio 2015\Projects\Kundenverwaltung -DONE-\Basisklasse\Basisklasse\obj\Debug\Basisklasse.csprojResolveAssemblyReference.cache
+C:\Users\Michael\Dropbox\Visual Studio Projects\Basisklasse -universal-\Basisklasse\bin\Debug\Basisklasse.dll
+C:\Users\Michael\Dropbox\Visual Studio Projects\Basisklasse -universal-\Basisklasse\bin\Debug\Basisklasse.pdb
+C:\Users\Michael\Dropbox\Visual Studio Projects\Basisklasse -universal-\Basisklasse\obj\Debug\Basisklasse.dll
+C:\Users\Michael\Dropbox\Visual Studio Projects\Basisklasse -universal-\Basisklasse\obj\Debug\Basisklasse.pdb
+C:\Users\Michael\Dropbox\Visual Studio Projects\Basisklasse -universal-\Basisklasse\obj\Debug\Basisklasse.csprojResolveAssemblyReference.cache
