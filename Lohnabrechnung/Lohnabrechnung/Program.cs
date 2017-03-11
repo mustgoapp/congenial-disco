@@ -10,6 +10,7 @@ namespace Lohnabrechnung
     {
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
+        /// // test
         /// </summary>
         [STAThread]
         static void Main()
@@ -18,5 +19,6 @@ namespace Lohnabrechnung
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
         }
+
     }
 }
