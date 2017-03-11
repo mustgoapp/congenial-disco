@@ -1,0 +1,13 @@
+C:\Users\Michael\Dropbox\Visual Studio Projects\Lohnabrechnung\Lohnabrechnung\bin\Release\Lohnabrechnung.exe.config
+C:\Users\Michael\Dropbox\Visual Studio Projects\Lohnabrechnung\Lohnabrechnung\bin\Release\Lohnabrechnung.exe
+C:\Users\Michael\Dropbox\Visual Studio Projects\Lohnabrechnung\Lohnabrechnung\bin\Release\Lohnabrechnung.pdb
+C:\Users\Michael\Dropbox\Visual Studio Projects\Lohnabrechnung\Lohnabrechnung\bin\Release\Basisklasse.dll
+C:\Users\Michael\Dropbox\Visual Studio Projects\Lohnabrechnung\Lohnabrechnung\bin\Release\Basisklasse.pdb
+C:\Users\Michael\Dropbox\Visual Studio Projects\Lohnabrechnung\Lohnabrechnung\obj\Release\Lohnabrechnung.csprojResolveAssemblyReference.cache
+C:\Users\Michael\Dropbox\Visual Studio Projects\Lohnabrechnung\Lohnabrechnung\obj\Release\Lohnabrechnung.Mitarbeiter.resources
+C:\Users\Michael\Dropbox\Visual Studio Projects\Lohnabrechnung\Lohnabrechnung\obj\Release\Lohnabrechnung.Form1.resources
+C:\Users\Michael\Dropbox\Visual Studio Projects\Lohnabrechnung\Lohnabrechnung\obj\Release\Lohnabrechnung.MitInfo.resources
+C:\Users\Michael\Dropbox\Visual Studio Projects\Lohnabrechnung\Lohnabrechnung\obj\Release\Lohnabrechnung.Properties.Resources.resources
+C:\Users\Michael\Dropbox\Visual Studio Projects\Lohnabrechnung\Lohnabrechnung\obj\Release\Lohnabrechnung.csproj.GenerateResource.Cache
+C:\Users\Michael\Dropbox\Visual Studio Projects\Lohnabrechnung\Lohnabrechnung\obj\Release\Lohnabrechnung.exe
+C:\Users\Michael\Dropbox\Visual Studio Projects\Lohnabrechnung\Lohnabrechnung\obj\Release\Lohnabrechnung.pdb
