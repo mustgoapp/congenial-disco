@@ -26,13 +26,16 @@ namespace Lohnabrechnung
         private static double astunden;
         public static double GetAstunden()
         { return astunden; }
-        public static void SetAstunden(double value)
-        { astunden = value;  }
+        public static void SetAstunden()
+        { dr = bk.Reader("SELECT LaStunden FROM Lohnabrechnung WHERE LaNr = "+GetMitnr()+" AND LaDatMon = "+GetMon()+" AND LaDatJahr = "+GetJahr()+"");
+            dr.Read();
+            astunden = Convert.ToDouble(dr["LaStunden"]);
+        }
         private static double ustunden;
         public static double GetUstunden()
         { return ustunden; }
         public static void SetUstunden()
-        {  dr =  bk.Reader("SELECT sum(MUeberstundenAnzahl*UeBetrag) from MUeberstunden, Ueberstunden WHERE MLaNr = "+GetMitnr()+" AND MDatMon = "+GetMon()+" AND MDatJahr = "+GetJahr()+" AND MUeNr = UeNr;");
+        {  dr =  bk.Reader("SELECT sum(MUeberstundenAnzahl*UeBetrag) from MUeberstunden, Ueberstunden WHERE MLaNr = "+mitnr+" AND MDatMon = "+mon+" AND MDatJahr = "+jahr+" AND MUeNr = UeNr;");
             try
             {
                 while (dr.Read())
@@ -43,10 +46,8 @@ namespace Lohnabrechnung
             catch (Exception)
             {
 
-               
             }
-                
-            
+
         }
         private static double astunden_betrag;
         public static  double GetAstunden_betrag()
@@ -68,7 +69,12 @@ namespace Lohnabrechnung
             {
                 gesamtlohn = astunden_betrag + ustunden;
             }
-            } 
+            }
+        private static double bonus;
+        public static double GetBonus()
+        { return bonus; }
+        public static void SetBonus()
+        { }
         private static int mitnr;
         public static int GetMitnr()
         { return mitnr; }
@@ -79,7 +85,7 @@ namespace Lohnabrechnung
         { return lgbetrag; }
         public static void SetLgbetrag()
         {
-            dr = bk.Reader("SELECT LgBetrag FROM Lohnabrechnung, Lohngruppen WHERE LaNr = " + mitnr + " AND LaDatMon = " + mon + " AND LaDatJahr = " + jahr + " AND LaLgNr = LgNr;");
+            dr = bk.Reader("SELECT * FROM Lohngruppen, Lohnabrechnung WHERE LaNr = " + GetMitnr() + " AND LaDatMon = " + GetMon() + " AND LaDatJahr = " + GetJahr() + " AND LaLgNr = LgNr;");
             while (dr.Read())
             {
                 lgbetrag = Convert.ToDouble(dr["LgBetrag"]);

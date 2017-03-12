@@ -37,6 +37,7 @@ namespace Lohnabrechnung
         int hausnr; //Hausnr
         int abtnr; //Abteilungsnr
         bool check2; //bool für den Speichern-Button, falls eine Abr existiert false = vorhanden true = Abrechnung kann erstellt werden
+        double bonus = 0;
         public Form1()
         {
             InitializeComponent();
@@ -70,6 +71,7 @@ namespace Lohnabrechnung
         private void button3_Click(object sender, EventArgs e)
         {
             Logik.SetUstunden();
+            Logik.SetAstunden();
             Logik.SetAstunden_betrag();
             Logik.SetGesamtlohn();
             Lohnabrechnung lar = new Lohnabrechnung();
@@ -217,7 +219,7 @@ namespace Lohnabrechnung
                     try
                     {
                         arbeitstunden = Convert.ToInt32(textBox4.Text);
-                        Logik.SetAstunden(Convert.ToDouble(textBox4.Text));
+                       // Logik.SetAstunden(Convert.ToDouble(textBox4.Text));
                         mitnr = Convert.ToInt32(textBox3.Text);
                         mon = Convert.ToInt32(dateTimePicker2.Value.Date.ToString("MM"));
                         jahr = Convert.ToInt32(dateTimePicker2.Value.Date.ToString("yyyy"));
@@ -282,7 +284,7 @@ namespace Lohnabrechnung
                 try
                 {
                     arbeitstunden = Convert.ToDouble(textBox4.Text);
-                    Logik.SetAstunden(Convert.ToDouble(textBox4.Text));
+                   // Logik.SetAstunden(Convert.ToDouble(textBox4.Text));
                     mitnr = Convert.ToInt32(textBox3.Text);
                     mon = Convert.ToInt32(dateTimePicker2.Value.Date.ToString("MM"));
                     jahr = Convert.ToInt32(dateTimePicker2.Value.Date.ToString("yyyy"));
@@ -310,9 +312,16 @@ namespace Lohnabrechnung
                 {
                     try
                     {
-
-                        cmd = bk.Command("INSERT INTO Lohnabrechnung (LaNr, LaDatMon, LaDatJahr, LaStunden, LaLgNr, LaMitAbt, LaMitVName, LaMitName, LaStadt, LaStrasse, LaPlz, LaHausnr) VALUES (" + mitnr + ", " + mon + "," + jahr + "," + arbeitstunden + "," + mlgnr + "," + abtnr + ",'" + vname + "','" + name + "','" + stadt + "','" + strasse + "'," + plz + "," + hausnr + ");");
-                        button4.Visible = true;
+                        if (bonus == 0)
+                        {
+                            cmd = bk.Command("INSERT INTO Lohnabrechnung (LaNr, LaDatMon, LaDatJahr, LaStunden, LaLgNr, LaMitAbt, LaMitVName, LaMitName, LaStadt, LaStrasse, LaPlz, LaHausnr) VALUES (" + mitnr + ", " + mon + "," + jahr + "," + arbeitstunden + "," + mlgnr + "," + abtnr + ",'" + vname + "','" + name + "','" + stadt + "','" + strasse + "'," + plz + "," + hausnr + ");");
+                            button4.Visible = true;
+                        }
+                        if (bonus >= 1)
+                        {
+                            cmd = bk.Command("INSERT INTO Lohnabrechnung (LaNr, LaDatMon, LaDatJahr, LaStunden, LaLgNr, LaMitAbt, LaMitVName, LaMitName, LaStadt, LaStrasse, LaPlz, LaHausnr, LaBonus) VALUES (" + mitnr + ", " + mon + "," + jahr + "," + arbeitstunden + "," + mlgnr + "," + abtnr + ",'" + vname + "','" + name + "','" + stadt + "','" + strasse + "'," + plz + "," + hausnr + ","+bonus+");");
+                            button4.Visible = true;
+                        }
 
                     }
                     catch (Exception)
@@ -331,6 +340,19 @@ namespace Lohnabrechnung
                 FormBonus formBonus = new FormBonus();
                 formBonus.ShowDialog();
                 LoadBonusComb1();
+               
+            }
+            else
+            {
+               string combobox = Convert.ToString(comboBox1.SelectedItem);
+               string combo = combobox.Substring(combobox.IndexOf(',') + 1);
+                // bonus = Double.Parse(CultureInfo.InvariantCulture, combo);
+                if (!double.TryParse(combo, System.Globalization.NumberStyles.Any, CultureInfo.CurrentCulture, out bonus) &&
+         // Then try in US english
+         !double.TryParse(combo, System.Globalization.NumberStyles.Any, CultureInfo.GetCultureInfo("de-DE"), out bonus) &&
+         // Then in neutral language
+         !double.TryParse(combo, System.Globalization.NumberStyles.Any, CultureInfo.InvariantCulture, out bonus))
+                { bonus = 0; }
             }
         }
         #region Methode DateTimeLaden
@@ -353,7 +375,7 @@ namespace Lohnabrechnung
                         while (dr.Read())
                         {
                             textBox4.Text = dr["LaStunden"].ToString();
-                            Logik.SetAstunden(Convert.ToDouble(dr["LaStunden"]));
+                           // Logik.SetAstunden(Convert.ToDouble(dr["LaStunden"]));
 
                         }
                         textBox2.ReadOnly = true;
@@ -495,7 +517,7 @@ namespace Lohnabrechnung
                         while (dr.Read())
                         {
                             textBox4.Text = dr["LaStunden"].ToString();
-                            Logik.SetAstunden(Convert.ToDouble(dr["LaStunden"]));
+                            //Logik.SetAstunden(Convert.ToDouble(dr["LaStunden"]));
 
                         }
                         textBox4.ReadOnly = true;
@@ -528,7 +550,9 @@ namespace Lohnabrechnung
             while (dr.Read())
             {
                 comboBox1.Items.Add(String.Format("{0}, {1}", dr["BonusName"].ToString(), dr["BonusBetrag"].ToString()));
+
             }
+            
         }
         #endregion
     }
