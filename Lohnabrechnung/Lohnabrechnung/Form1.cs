@@ -19,18 +19,16 @@ namespace Lohnabrechnung
         Klasse bk = new Klasse();
         OleDbDataReader dr;
         OleDbCommand cmd;
-
-        int mon;
-        int jahr;
-        double arbeitstunden;
-        double ustunden;
-        private int mitnr;
-        int unr;
+        int mon; //Monat
+        int jahr; //Jahr
+        double arbeitstunden; //Arbeitsstunden
+        double ustunden; //Ueberstunden
+        private int mitnr; //MitLaNr
+        int unr; //UeberstundenNr
         int mlgnr; //MitLgNr
-        int lb3index;
         int selindex; //Selected Index listBox3
         int lb2index;
-        int item;
+        int item; //MLaNr
         string vname; //Vorname
         string name; //Name
         string stadt; //Stadt
@@ -38,61 +36,20 @@ namespace Lohnabrechnung
         int plz; //Hausnr
         int hausnr; //Hausnr
         int abtnr; //Abteilungsnr
-
-
-        bool check2; //bool für den Speichern-Button, falls eine Abr existiert false= vorhanden true = Abrechnung kann erstellt werden
+        bool check2; //bool für den Speichern-Button, falls eine Abr existiert false = vorhanden true = Abrechnung kann erstellt werden
         public Form1()
         {
             InitializeComponent();
-
-
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            listBox3.Items.Add("[Lohngruppen verwalten]");
-            dateTimePicker2.Format = DateTimePickerFormat.Custom;
-            dateTimePicker2.CustomFormat = "MM-yyyy";
-            dr = bk.Reader("SELECT MLaNr FROM Mitarbeiter where Status = true;");
-            while (dr.Read())
-            {
-                listBox1.Items.Add(dr["MLaNr".ToString()]);
-            }
-
-            dr = bk.Reader("SELECT * FROM Ueberstunden;");
-            while (dr.Read())
-            {
-                listBox2.Items.Add(dr["UeName".ToString()]);
-
-            }
-
-            dr = bk.Reader("SELECT * FROM Lohngruppen;");
-            while (dr.Read())
-            {
-
-                listBox3.Items.Add(dr["LgNr".ToString()]);
-            }
-            
+            SetDateTime();
+            LoadListBox1();
+            LoadListBox2();
+            LoadListBox3();
             LoadBonusComb1();
-            
-
         }
-
-        #region Loads
-
-        private void LoadBonusComb1()
-        {
-            comboBox1.Items.Clear();
-            comboBox1.Items.Add("[Bonus verwalten]");
-            dr = bk.Reader("SELECT * from Bonus");
-            while (dr.Read())
-            {
-                comboBox1.Items.Add(String.Format("{0}, {1}", dr["BonusName"].ToString(), dr["BonusBetrag"].ToString()));
-            }
-        }
-
-        #endregion
-
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -104,14 +61,7 @@ namespace Lohnabrechnung
             {
                 Mitarbeiter mitarbeiter = new Mitarbeiter();
                 mitarbeiter.ShowDialog();
-                listBox1.Items.Clear();
-                listBox1.Items.Add("[Mitarbeiter verwalten]");
-                dr = bk.Reader("SELECT MLaNr FROM Mitarbeiter;");
-                while (dr.Read())
-                {
-                    listBox1.Items.Add(dr["MLaNr".ToString()]);
-                }
-
+                LoadListBox1();
             }
             SelWorker();
         }
@@ -123,132 +73,24 @@ namespace Lohnabrechnung
             Logik.SetAstunden_betrag();
             Logik.SetGesamtlohn();
             Lohnabrechnung lar = new Lohnabrechnung();
-            lar.Show();
+            lar.ShowDialog();
 
         }
-
-
 
         private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
         {
-            mon = Convert.ToInt32(dateTimePicker2.Value.Date.ToString("MM"));
-            jahr = Convert.ToInt32(dateTimePicker2.Value.Date.ToString("yyyy"));
-            Logik.SetMon(mon);
-            Logik.SetJahr(jahr);
-            if (listBox1.SelectedIndex > 0)
-            {
-
-                textBox4.Clear();
-                try
-                {
-
-
-
-                    dr = bk.Reader("SELECT LaStunden FROM Lohnabrechnung WHERE (" + jahr + " = LaDatJahr AND " + mon + " = LaDatMon AND " + mitnr + " = LaNr );");
-
-                    if (dr.HasRows)
-                    {
-                        while (dr.Read())
-                        {
-                            textBox4.Text = dr["LaStunden"].ToString();
-                            Logik.SetAstunden(Convert.ToDouble(dr["LaStunden"]));
-
-                        }
-                        textBox2.ReadOnly = true;
-                        textBox4.ReadOnly = true;
-                    }
-                    else
-                    {
-                        textBox4.Text = " ";
-                        textBox4.ReadOnly = false;
-                        textBox2.ReadOnly = false;
-                        check2 = true;
-                    }
-
-
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-
-            }
-
+            LoadDateTime();
         }
-        #region Methode AbrCheck
-        public void AbrCheck()
-        {
-            mon = Convert.ToInt32(dateTimePicker2.Value.Date.ToString("MM"));
-            jahr = Convert.ToInt32(dateTimePicker2.Value.Date.ToString("yyyy"));
-            Logik.SetMon(mon);
-            Logik.SetJahr(jahr);
-            if (listBox1.SelectedIndex > 0)
-            {
-
-                textBox4.Clear();
-                try
-                {
-
-
-
-                    dr = bk.Reader("SELECT LaStunden FROM Lohnabrechnung WHERE (" + jahr + " = LaDatJahr AND " + mon + " = LaDatMon AND " + mitnr + " = LaNr );");
-
-                    if (dr.HasRows)
-                    {
-                        while (dr.Read())
-                        {
-                            textBox4.Text = dr["LaStunden"].ToString();
-                            Logik.SetAstunden(Convert.ToDouble(dr["LaStunden"]));
-                            //check2 = false
-
-                        }
-
-                        textBox4.ReadOnly = true;
-                    }
-                    else
-                    {
-                        textBox4.Text = " ";
-                        textBox4.ReadOnly = false;
-                        textBox2.ReadOnly = false;
-                        check2 = true;
-                    }
-
-
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-
-            }
-
-
-        }
-        #endregion
-
-
+        
         private void listBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-            
-
 
             if (listBox3.SelectedIndex == 0)
             {
                 Lohngruppen lohngruppen = new Lohngruppen();
                 lohngruppen.ShowDialog();
                 listBox3.Items.Clear();
-                listBox3.Items.Add("[Lohngruppen verwalten]");
-                dr = bk.Reader("SELECT * FROM Lohngruppen;");
-                while (dr.Read())
-                {
-
-                    listBox3.Items.Add(dr["LgNr".ToString()]);
-                }
-               
-
+                LoadListBox3();
             }
             else
             {
@@ -295,10 +137,6 @@ namespace Lohnabrechnung
                 textBox2.Text = "0";
 
             }
-
-
-
-
 
         }
 
@@ -427,83 +265,7 @@ namespace Lohnabrechnung
         {
             mitnr = Convert.ToInt32(textBox3.Text);
         }
-        #region Methode SelWorker()
-        public void SelWorker()
-        {
-            try
-            {
-
-
-                if (listBox1.SelectedIndex > 0)
-                {
-
-
-                    item = Convert.ToInt32(listBox1.SelectedItem);
-                    Logik.SetMitnr(item);
-                    dr = bk.Reader("SELECT * FROM Mitarbeiter, Abteilung WHERE (" + item + " = MLaNr) AND MAbtNr = AbtNr;");
-                    dr.Read();
-
-                    textBox1.Text = "" + dr["MVorname"] + " " + dr["MName"];
-                    textBox3.Text = "" + dr["MLaNr"];
-                    textBox8.Text = "" + dr["AbtName"];
-                    vname = dr["MVorname"].ToString();
-                    name = dr["MName"].ToString();
-                    stadt = dr["stadt"].ToString();
-                    strasse = dr["strasse"].ToString();
-                    plz = Convert.ToInt32(dr["plz"]);
-                    hausnr = Convert.ToInt32(dr["hausnr"]);
-                    abtnr = Convert.ToInt32(dr["MAbtNr"]);
-
-                    textBox2.Text = "0";
-
-                    dr = bk.Reader("SELECT MLgNr FROM Mitarbeiter WHERE MLaNr = " + mitnr + ";");
-                    dr.Read();
-                    mlgnr = Convert.ToInt32(dr["MLgNr"]);
-                    selindex = mlgnr - 1;
-                  //  listBox3.SelectedIndex = selindex;
-                    listBox3.SelectedItem = mlgnr;
-                    dr = bk.Reader("SELECT * FROM Lohngruppen WHERE LgNr = " + mlgnr + ";");
-                    // dr = bk.Reader("SELECT * FROM Lohngruppen WHERE LgName = " + listBox3.SelectedItem + ";");
-
-                    while (dr.Read())
-                    {
-                        textBox7.Text = dr["LgName"].ToString();
-                        textBox10.Text = dr["LgBetrag"].ToString();
-
-                    }
-
-                    button3.Enabled = true;
-                    groupBox2.Enabled = true;
-                    groupBox3.Enabled = true;
-                    AbrCheck();
-
-                }
-
-            }
-            catch (Exception)
-            {
-
-
-            }
-        }
-        #endregion
-
-        public void Aktualisieren()
-        {
-
-            dr = bk.Reader("SELECT MLaNr FROM Mitarbeiter;");
-            while (dr.Read())
-            {
-
-
-                listBox1.Items.Add(dr["MLaNr".ToString()]);
-
-            }
-
-
-        }
-
-
+    
 
         private void button5_Click(object sender, EventArgs e)
         {
@@ -559,9 +321,6 @@ namespace Lohnabrechnung
                     }
                     AbrCheck();
                 }
-
-
-
             }
         }
 
@@ -574,8 +333,204 @@ namespace Lohnabrechnung
                 LoadBonusComb1();
             }
         }
+        #region Methode DateTimeLaden
+        private void LoadDateTime()
+        {
+            mon = Convert.ToInt32(dateTimePicker2.Value.Date.ToString("MM"));
+            jahr = Convert.ToInt32(dateTimePicker2.Value.Date.ToString("yyyy"));
+            Logik.SetMon(mon);
+            Logik.SetJahr(jahr);
+            if (listBox1.SelectedIndex > 0)
+            {
+                textBox4.Clear();
+                try
+                {
 
+                    dr = bk.Reader("SELECT LaStunden FROM Lohnabrechnung WHERE (" + jahr + " = LaDatJahr AND " + mon + " = LaDatMon AND " + mitnr + " = LaNr );");
 
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            textBox4.Text = dr["LaStunden"].ToString();
+                            Logik.SetAstunden(Convert.ToDouble(dr["LaStunden"]));
+
+                        }
+                        textBox2.ReadOnly = true;
+                        textBox4.ReadOnly = true;
+                    }
+                    else
+                    {
+                        textBox4.Text = " ";
+                        textBox4.ReadOnly = false;
+                        textBox2.ReadOnly = false;
+                        check2 = true;
+                    }
+
+                }
+                catch (Exception)
+                {
+
+                    MessageBox.Show("Beim Laden der Stunden aus der Lohnabrechnung trat ein Problem auf", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+            }
+
+        }
+        #endregion
+
+        #region Methode DateTime setzen
+        private void SetDateTime()
+        {
+            dateTimePicker2.Format = DateTimePickerFormat.Custom;
+            dateTimePicker2.CustomFormat = "MM-yyyy";
+        }
+        #endregion
+
+        #region Methode listBox1 laden
+        private void LoadListBox1()
+        {
+            listBox1.Items.Clear();
+            listBox1.Items.Add("[Mitarbeiter verwalten]");
+            dr = bk.Reader("SELECT MLaNr FROM Mitarbeiter where Status = 'true';");
+            while (dr.Read())
+            {
+                listBox1.Items.Add(dr["MLaNr".ToString()]);
+            }
+        }
+        #endregion
+
+        #region Methode listBox2 laden
+        private void LoadListBox2()
+        {
+            dr = bk.Reader("SELECT * FROM Ueberstunden;");
+            while (dr.Read())
+            {
+                listBox2.Items.Add(dr["UeName".ToString()]);
+
+            }
+        }
+        #endregion
+
+        #region Methode listBox3 laden
+        private void LoadListBox3()
+        {
+            listBox3.Items.Add("[Lohngruppen verwalten]");
+            dr = bk.Reader("SELECT * FROM Lohngruppen;");
+            while (dr.Read())
+            {
+
+                listBox3.Items.Add(dr["LgNr".ToString()]);
+            }
+        }
+        #endregion
+
+        #region Methode Ausgewählter Mitarbeiter()
+        private void SelWorker()
+        {
+            try
+            {
+                if (listBox1.SelectedIndex > 0)
+                {
+                    item = Convert.ToInt32(listBox1.SelectedItem);
+                    Logik.SetMitnr(item);
+
+                    dr = bk.Reader("SELECT * FROM Mitarbeiter, Abteilung WHERE (" + item + " = MLaNr) AND MAbtNr = AbtNr;");
+                    dr.Read();
+                    textBox1.Text = "" + dr["MVorname"] + " " + dr["MName"];
+                    textBox3.Text = "" + dr["MLaNr"];
+                    textBox8.Text = "" + dr["AbtName"];
+                    vname = dr["MVorname"].ToString();
+                    name = dr["MName"].ToString();
+                    stadt = dr["stadt"].ToString();
+                    strasse = dr["strasse"].ToString();
+                    plz = Convert.ToInt32(dr["plz"]);
+                    hausnr = Convert.ToInt32(dr["hausnr"]);
+                    abtnr = Convert.ToInt32(dr["MAbtNr"]);
+                    textBox2.Text = "0";
+                    dr = bk.Reader("SELECT MLgNr FROM Mitarbeiter WHERE MLaNr = " + mitnr + ";");
+                    dr.Read();
+                    mlgnr = Convert.ToInt32(dr["MLgNr"]);
+                    selindex = mlgnr - 1;
+                    listBox3.SelectedItem = mlgnr;
+                    dr = bk.Reader("SELECT * FROM Lohngruppen WHERE LgNr = " + mlgnr + ";");
+
+                    while (dr.Read())
+                    {
+                        textBox7.Text = dr["LgName"].ToString();
+                        textBox10.Text = dr["LgBetrag"].ToString();
+
+                    }
+
+                    button3.Enabled = true;
+                    groupBox2.Enabled = true;
+                    groupBox3.Enabled = true;
+                    AbrCheck();
+
+                }
+
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Beim Laden des Mitarbeiters ist ein Problem aufgetreten", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion
+
+        #region Methode AbrCheck
+        private void AbrCheck()
+        {
+            mon = Convert.ToInt32(dateTimePicker2.Value.Date.ToString("MM"));
+            jahr = Convert.ToInt32(dateTimePicker2.Value.Date.ToString("yyyy"));
+            Logik.SetMon(mon);
+            Logik.SetJahr(jahr);
+            if (listBox1.SelectedIndex > 0)
+            {
+                textBox4.Clear();
+                try
+                {
+                    dr = bk.Reader("SELECT LaStunden FROM Lohnabrechnung WHERE (" + jahr + " = LaDatJahr AND " + mon + " = LaDatMon AND " + mitnr + " = LaNr );");
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            textBox4.Text = dr["LaStunden"].ToString();
+                            Logik.SetAstunden(Convert.ToDouble(dr["LaStunden"]));
+
+                        }
+                        textBox4.ReadOnly = true;
+                    }
+                    else
+                    {
+                        textBox4.Text = " ";
+                        textBox4.ReadOnly = false;
+                        textBox2.ReadOnly = false;
+                        check2 = true;
+                    }
+
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Beim Prüfen der aktuellen Abrechnung trat ein Problem auf", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
+            }
+
+        }
+        #endregion
+
+        #region Methode Load Combobox1
+        private void LoadBonusComb1()
+        {
+            comboBox1.Items.Clear();
+            comboBox1.Items.Add("[Bonus verwalten]");
+            dr = bk.Reader("SELECT * from Bonus");
+            while (dr.Read())
+            {
+                comboBox1.Items.Add(String.Format("{0}, {1}", dr["BonusName"].ToString(), dr["BonusBetrag"].ToString()));
+            }
+        }
+        #endregion
     }
 }
 

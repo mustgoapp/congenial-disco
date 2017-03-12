@@ -17,8 +17,7 @@ namespace Lohnabrechnung
         Form1 hk = new Form1();
         Klasse bk = new Klasse();
         OleDbDataReader dr;
-        OleDbDataAdapter da;
-        DataTable dt;
+
         int mitnr;
         int mon;
         int jahr;
