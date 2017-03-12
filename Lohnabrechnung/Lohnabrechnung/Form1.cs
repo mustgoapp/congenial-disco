@@ -26,7 +26,7 @@ namespace Lohnabrechnung
         double ustunden;
         private int mitnr;
         int unr;
-        int mlgnr;
+        int mlgnr; //MitLgNr
         int lb3index;
         int selindex; //Selected Index listBox3
         int lb2index;
@@ -248,6 +248,11 @@ namespace Lohnabrechnung
                     listBox3.Items.Add(dr["LgNr".ToString()]);
                 }
                
+
+            }
+            else
+            {
+                listBox3.SelectedItem = mlgnr;
 
             }
             
