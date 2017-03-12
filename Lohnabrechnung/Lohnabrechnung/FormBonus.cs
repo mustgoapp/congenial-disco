@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.OleDb;
 using Basisklasse;
+using System.Globalization;
+using System.Threading;
 
 namespace Lohnabrechnung
 {
@@ -17,10 +19,11 @@ namespace Lohnabrechnung
         OleDbCommand cmd;
         OleDbDataReader dr;
         Klasse bk = new Klasse();
+
         public FormBonus()
         {
             InitializeComponent();
-
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
 
         }
 
@@ -60,19 +63,24 @@ namespace Lohnabrechnung
 
             dr = bk.Reader(String.Format("select BonusName from Bonus where BonusName = '{0}'", textBox2.Text));
             dr.Read();
+
             double bonus;
+
+            string bonusstring = textBox1.Text;
             try
             {
-                bonus = Convert.ToDouble(textBox1.Text);
+                
+                    bonus = double.Parse(bonusstring, CultureInfo.CurrentCulture);
+
                 if (dr.HasRows)
                 {
-                    cmd = bk.Command(String.Format("update Bonus set BonusBetrag = {0} where BonusName = '{1}' ", Convert.ToInt32(textBox1.Text), textBox2.Text));
-                    MessageBox.Show("Der BonusBetrag wurde erfolgreich verändert!", "Hinweis");
+                    cmd = bk.Command(String.Format("update Bonus set BonusBetrag = {0} where BonusName = '{1}' ", bonus, textBox2.Text));
+                    MessageBox.Show("Der Bonusbetrag wurde erfolgreich verändert!", "Hinweis");
                 }
                 else
                 {
                     cmd = bk.Command(String.Format("insert into Bonus (BonusBetrag) values ({0}) where BonusName = '{1}'", Convert.ToInt32(textBox1.Text), textBox2.Text));
-                    MessageBox.Show("Der Bonus wurde erfolgreich Hinzugefügt!", "Hinweis");
+                    MessageBox.Show("Der Bonus wurde erfolgreich hinzugefügt!", "Hinweis");
                 }
             }
             catch (Exception)
@@ -98,7 +106,7 @@ namespace Lohnabrechnung
             catch (Exception)
             {
 
-                MessageBox.Show("Bitte wählen sie einen Bonus zum löschen aus!","Hinweis");
+                MessageBox.Show("Bitte wählen Sie einen Bonus zum Löschen aus!","Hinweis");
             }
         }
 

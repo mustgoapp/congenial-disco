@@ -71,7 +71,7 @@ namespace Lohnabrechnung
 
                 listBox3.Items.Add(dr["LgNr".ToString()]);
             }
-
+            
             LoadBonusComb1();
             
 
@@ -233,15 +233,23 @@ namespace Lohnabrechnung
 
             
 
-            if (listBox1.SelectedIndex == 0)
+
+            if (listBox3.SelectedIndex == 0)
             {
                 Lohngruppen lohngruppen = new Lohngruppen();
                 lohngruppen.ShowDialog();
                 listBox3.Items.Clear();
                 listBox3.Items.Add("[Lohngruppen verwalten]");
+                dr = bk.Reader("SELECT * FROM Lohngruppen;");
+                while (dr.Read())
+                {
+
+                    listBox3.Items.Add(dr["LgNr".ToString()]);
+                }
                
-                
+
             }
+            
         }
 
         private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
@@ -438,7 +446,8 @@ namespace Lohnabrechnung
                     dr.Read();
                     mlgnr = Convert.ToInt32(dr["MLgNr"]);
                     selindex = mlgnr - 1;
-                    listBox3.SelectedIndex = selindex;
+                  //  listBox3.SelectedIndex = selindex;
+                    listBox3.SelectedItem = mlgnr;
                     dr = bk.Reader("SELECT * FROM Lohngruppen WHERE LgNr = " + mlgnr + ";");
                     // dr = bk.Reader("SELECT * FROM Lohngruppen WHERE LgName = " + listBox3.SelectedItem + ";");
 
@@ -548,6 +557,7 @@ namespace Lohnabrechnung
             {
                 FormBonus formBonus = new FormBonus();
                 formBonus.ShowDialog();
+                LoadBonusComb1();
             }
         }
 

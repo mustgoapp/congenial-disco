@@ -193,7 +193,6 @@
             // listBox3
             // 
             this.listBox3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.listBox3.Enabled = false;
             this.listBox3.FormattingEnabled = true;
             this.listBox3.Location = new System.Drawing.Point(3, 16);
             this.listBox3.Name = "listBox3";
@@ -207,7 +206,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.button5.Location = new System.Drawing.Point(10, 3);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(78, 25);
+            this.button5.Size = new System.Drawing.Size(71, 25);
             this.button5.TabIndex = 13;
             this.button5.Text = "Speichern";
             this.button5.UseVisualStyleBackColor = true;
@@ -269,7 +268,7 @@
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 94.55782F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 114F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 152F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 153F));
             this.tableLayoutPanel5.Controls.Add(this.button3, 3, 0);
             this.tableLayoutPanel5.Controls.Add(this.button5, 1, 0);
             this.tableLayoutPanel5.Location = new System.Drawing.Point(6, 330);
@@ -283,7 +282,7 @@
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button3.Enabled = false;
-            this.button3.Location = new System.Drawing.Point(161, 3);
+            this.button3.Location = new System.Drawing.Point(160, 3);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(101, 25);
             this.button3.TabIndex = 9;
@@ -488,7 +487,6 @@
             // listBox2
             // 
             this.listBox2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.listBox2.Enabled = false;
             this.listBox2.FormattingEnabled = true;
             this.listBox2.Location = new System.Drawing.Point(3, 16);
             this.listBox2.Name = "listBox2";
