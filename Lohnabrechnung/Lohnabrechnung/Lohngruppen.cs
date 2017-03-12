@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.OleDb;
 using Basisklasse;
+using System.Globalization;
 
 namespace Lohnabrechnung
 {
@@ -60,16 +61,19 @@ namespace Lohnabrechnung
             string name;
             try
             {
-                betrag = Convert.ToDouble(textBox1.Text);
+                if (!double.TryParse(textBox1.Text, out betrag))
+                {
+                    MessageBox.Show("Der Betrag darf nur Zahlen enhalten!","Hinweis");
+                }
                 name = Convert.ToString(textBox2.Text);
                 if (listBox1.SelectedIndex == -1)
                 {
-                    cmd = bk.Command(String.Format("insert into Lohngruppen (LgName, LgBetrag) values ('{0}', {1})", name, betrag));
+                    cmd = bk.Command(String.Format(CultureInfo.InvariantCulture,"insert into Lohngruppen (LgName, LgBetrag) values ('{0}', {1})", name, betrag));
                     MessageBox.Show("Die Lohngruppe wurde erfolgreich Hinzugefügt.","Hinweis");
                 }
                 else
                 {
-
+                    cmd = bk.Command(String.Format(CultureInfo.InvariantCulture,"update Lohngruppen set LgName = '{0}', LgBetrag = {1} where LgNr = {2}", name, betrag, listBox1.SelectedItem));
                 }
             }
             catch (Exception)
@@ -82,13 +86,31 @@ namespace Lohnabrechnung
 
         #endregion
 
+        #region Hinzufügen
+        private void button3_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = "";
+            textBox2.Text = "";
+            listBox1.SelectedIndex = -1;
+            listBox1.Enabled = true;
+            button3.Enabled = true;
+            button2.Enabled = true;
+        }
+
         private void Lohngruppen_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode== Keys.Escape)
             {
-                this.Close();
+                textBox1.Text = "";
+                textBox2.Text = "";
+                listBox1.Enabled = false;
+                button2.Enabled = false;
+                button3.Enabled = false;
+                LoadLgNr();
                 e.Handled = true;
             }
         }
+
+        #endregion
     }
 }
