@@ -413,6 +413,7 @@ namespace Lohnabrechnung
                         }
                         catch (Exception)
                         {
+                            MessageBox.Show("Es wurde kein Betrag für die Überstunden eingetragen.", "Hinweis",MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                         AbrCheck();
                     }
