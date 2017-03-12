@@ -344,9 +344,16 @@ namespace Lohnabrechnung
                     {
                         try
                         {
+                            if (ustunden >= 1)
+                            { 
                             cmd = bk.Command("INSERT INTO MUeberstunden (MUeNr, MUeberstundenAnzahl, MLaNr, MDatMon, MDatJahr) VALUES (" + unr + ", " + ustunden + "," + mitnr + ", " + mon + "," + jahr + ");");
                             MessageBox.Show("Die Überstunden wurden erfolgreich gespeichert!", "Hinweis");
+                        }
+                            else
+                            {
+                                MessageBox.Show("Die Überstunden wurden erfolgreich gespeichert!", "Hinweis");
 
+                            }
                         }
                         catch (Exception)
                         {
