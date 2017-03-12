@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Basisklasse;
 using System.Data.OleDb;
+using System.Globalization;
 
 
 namespace Lohnabrechnung

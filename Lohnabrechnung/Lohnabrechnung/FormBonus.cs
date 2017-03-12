@@ -23,7 +23,7 @@ namespace Lohnabrechnung
         public FormBonus()
         {
             InitializeComponent();
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
+            
 
         }
 
@@ -61,7 +61,7 @@ namespace Lohnabrechnung
         private void button1_Click(object sender, EventArgs e)
         {
 
-            dr = bk.Reader(String.Format("select BonusName from Bonus where BonusName = '{0}'", textBox2.Text));
+            dr = bk.Reader(String.Format(CultureInfo.InvariantCulture,"select BonusName from Bonus where BonusName = '{0}'", textBox2.Text));
             dr.Read();
 
             double bonus;
@@ -69,17 +69,20 @@ namespace Lohnabrechnung
             string bonusstring = textBox1.Text;
             try
             {
-                
-                    bonus = double.Parse(bonusstring, CultureInfo.CurrentCulture);
+
+                if (!double.TryParse(textBox1.Text, out bonus))
+                {
+                    MessageBox.Show("Der Bonus darf nur Zahlen enthalten!","Hinweis");
+                }
 
                 if (dr.HasRows)
                 {
-                    cmd = bk.Command(String.Format("update Bonus set BonusBetrag = {0} where BonusName = '{1}' ", bonus, textBox2.Text));
+                    cmd = bk.Command(String.Format(CultureInfo.InvariantCulture,"update Bonus set BonusBetrag = {0} where BonusName = '{1}' ", bonus, textBox2.Text));
                     MessageBox.Show("Der Bonusbetrag wurde erfolgreich verändert!", "Hinweis");
                 }
                 else
                 {
-                    cmd = bk.Command(String.Format("insert into Bonus (BonusBetrag) values ({0}) where BonusName = '{1}'", Convert.ToInt32(textBox1.Text), textBox2.Text));
+                    cmd = bk.Command(String.Format(CultureInfo.InvariantCulture,"insert into Bonus (BonusBetrag) values ({0}) where BonusName = '{1}'", bonus, textBox2.Text));
                     MessageBox.Show("Der Bonus wurde erfolgreich hinzugefügt!", "Hinweis");
                 }
             }
