@@ -314,12 +314,12 @@ namespace Lohnabrechnung
                     {
                         if (bonus == 0)
                         {
-                            cmd = bk.Command("INSERT INTO Lohnabrechnung (LaNr, LaDatMon, LaDatJahr, LaStunden, LaLgNr, LaMitAbt, LaMitVName, LaMitName, LaStadt, LaStrasse, LaPlz, LaHausnr) VALUES (" + mitnr + ", " + mon + "," + jahr + "," + arbeitstunden + "," + mlgnr + "," + abtnr + ",'" + vname + "','" + name + "','" + stadt + "','" + strasse + "'," + plz + "," + hausnr + ");");
+                            cmd = bk.Command(String.Format(CultureInfo.InvariantCulture,"insert into Lohnabrechnung (LaNr, LaDatMon, LaDatJahr, LaStunden, LaLgNr, LaMitAbt, LaMitVName, LaMitName, LaStadt, LaStrasse, LaPlz, LaHausnr) values ({0},{1},{2},{3},{4},{5},'{6}','{7}','{8}','{9}',{10},{11})",mitnr,mon,jahr,arbeitstunden,mlgnr,abtnr,vname,name,stadt,strasse,plz,hausnr));
                             button4.Visible = true;
                         }
                         if (bonus >= 1)
                         {
-                            cmd = bk.Command("INSERT INTO Lohnabrechnung (LaNr, LaDatMon, LaDatJahr, LaStunden, LaLgNr, LaMitAbt, LaMitVName, LaMitName, LaStadt, LaStrasse, LaPlz, LaHausnr, LaBonus) VALUES (" + mitnr + ", " + mon + "," + jahr + "," + arbeitstunden + "," + mlgnr + "," + abtnr + ",'" + vname + "','" + name + "','" + stadt + "','" + strasse + "'," + plz + "," + hausnr + ","+bonus+");");
+                            cmd = bk.Command(String.Format(CultureInfo.InvariantCulture,"insert into Lohnabrechnung (LaNr,LaDatMon, LaDatJahr, LaStunden, LaLgNr, LaMitAbt, LaMitVName, LaMitName, LaStadt, LaStrasse, LaPlz, LaHausnr, LaBonus) values ({0},{1},{2},{3},{4},{5},'{6}','{7}',{8}','{9}',{10},{11},{12})",mitnr,mon,jahr,arbeitstunden,mlgnr,abtnr,vname,name,stadt,strasse,plz,hausnr,bonus));
                             button4.Visible = true;
                         }
 
